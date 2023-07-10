@@ -12,7 +12,7 @@ Deployment:
 Preview:
 
 ## Credits
-N/A
+For loops to create and style multiple elements: https://stackoverflow.com/questions/32670902/create-multiple-elements
 
 ## License
 N/A

@@ -1,11 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz</title>
-</head>
-<body>
-    
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="./assets/css/style.css" />
+    <title>40k Lore Quiz</title>
+  </head>
+  <body>
+    <header class="header">
+      <p id="high-scores" class="header-text high-scores">High Scores</p>
+      <p id="timer" class="timer">
+        Time left: <span id="time-left" class="header-text time-left">45</span> seconds
+      </p>
+    </header>
+    <main>
+      <div class="card">
+        <h1 class="card-header">40k Lore Quiz</h1>
+        <p class="card-body">
+          Click below to start a quiz testing your knowledge of Warhammer 40k lore.
+        </p>
+        <br />
+        <p class="card-body">
+          Keep in mind that the quiz is timed and wrong answers will penalize
+          your score and time by 10 seconds.
+        </p>
+        <button id="start-quiz" class="start-quiz btn">Start Quiz</button>
+      </div>
+    </main>
+    <script src="./assets/js/script.js"></script>
+  </body>
 </html>
