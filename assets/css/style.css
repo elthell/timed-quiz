@@ -11,22 +11,26 @@ body {
 }
 
 header,
-main {
+main,
+footer {
   padding: 15px;
 }
 
 /* header */
+header {
+  height: 75px;
+}
 .header-text {
   font-size: 20px;
   font-weight: bold;
 }
 .high-scores {
-  margin: 10px;
+  margin: 20px 10px 10px 10px;
 }
 .timer {
   position: absolute;
   right: 3%;
-  top: 2%;
+  top: 3%;
 }
 
 /* main */
@@ -58,4 +62,16 @@ main {
 .btn:hover {
   background-color: lightgrey;
   cursor: pointer;
+}
+
+/* footer */
+footer {
+  height: 75px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.feedback {
+  font-size: 18px;
+  font-style: italic;
 }
