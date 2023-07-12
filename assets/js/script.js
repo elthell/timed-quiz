@@ -7,6 +7,7 @@ let secondsLeft = 45;
 let totalScore = 0;
 totalScore.id = "total-score";
 let feedback = document.querySelector("#feedback");
+// pulls prev stored data + ready for new info
 let allScores = JSON.parse(localStorage.getItem("allScores")) || [];
 
 // click start button to start quiz and timer
@@ -281,8 +282,8 @@ function showSubmit() {
   submitFinal.addEventListener("click", function (event) {
     event.preventDefault();
     let userInput = document.getElementById("name-input").value;
-    // allScores.push(nameInput.value, totalScore)
     let newHighScore = { userInput, totalScore };
+    // add current info to total info
     allScores.push(newHighScore);
     localStorage.setItem("allScores", JSON.stringify(allScores));
     showHighScores();
@@ -307,12 +308,14 @@ function showHighScores() {
   scoreCardTitle.textContent = "High Scores";
   scoreCard.appendChild(scoreCardTitle);
 
+  // list to be filled with scores, outside function to be cleared later
   let scoreDisplay = document.createElement("ol");
   scoreCard.appendChild(scoreDisplay);
 
   // create entry for info in local storage
   if (allScores) {
     function renderScores() {
+      // pull from each entered obj in array
       allScores.forEach((element, index, array) => {
         let scores = array[index];
         scores = document.createElement("li");
@@ -343,7 +346,7 @@ function showHighScores() {
   clearBtn.classList.add("btn");
   clearBtn.textContent = "Clear Scores";
   scoreCard.appendChild(clearBtn);
-  // event to clear local storage
+  // event to clear local storage and scores shown on page
   clearBtn.addEventListener("click", function () {
     localStorage.clear();
     scoreDisplay.remove();

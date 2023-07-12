@@ -14,7 +14,9 @@ Preview:
 
 ## Credits
 For loops to create and style multiple elements: https://stackoverflow.com/questions/32670902/create-multiple-elements
+
 For loops through arrays to do same as above: https://stackoverflow.com/questions/16626735/how-to-loop-through-an-array-containing-objects-and-access-their-properties
+
 How to compile stored data in an array: https://stackoverflow.com/questions/35659086/localstorage-values-resetting-after-refresh
 
 ## License

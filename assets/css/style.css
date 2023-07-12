@@ -27,6 +27,7 @@ header {
 .high-scores {
   margin: 20px 10px 10px 10px;
 }
+/* looks like a link */
 .high-scores:hover {
   text-decoration: underline;
   cursor: pointer;
@@ -45,6 +46,7 @@ main {
   align-items: center;
   margin-top: 15px;
 }
+/* for each question / page card */
 .card {
   max-width: 600px;
   border: 2px black solid;
@@ -55,6 +57,7 @@ main {
 .card-header {
   margin: 10px;
 }
+/* for each "button" */
 .btn {
   padding: 10px;
   margin-top: 10px;
