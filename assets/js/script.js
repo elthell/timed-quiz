@@ -7,6 +7,7 @@ let secondsLeft = 45;
 let totalScore = 0;
 totalScore.id = "total-score";
 let feedback = document.querySelector("#feedback");
+let allScores = JSON.parse(localStorage.getItem("allScores")) || [];
 
 // click start button to start quiz and timer
 startBtn.addEventListener("click", function () {
@@ -279,11 +280,11 @@ function showSubmit() {
   // click to add name + score to local storage
   submitFinal.addEventListener("click", function (event) {
     event.preventDefault();
-    let newHighScore = {
-      name: nameInput.value,
-      score: totalScore,
-    };
-    localStorage.setItem("newHighScore", JSON.stringify(newHighScore))
+    let userInput = document.getElementById("name-input").value;
+    // allScores.push(nameInput.value, totalScore)
+    let newHighScore = { userInput, totalScore };
+    allScores.push(newHighScore);
+    localStorage.setItem("allScores", JSON.stringify(allScores));
     showHighScores();
   });
 }
@@ -306,8 +307,25 @@ function showHighScores() {
   scoreCardTitle.textContent = "High Scores";
   scoreCard.appendChild(scoreCardTitle);
 
-  let addHighScore = document.createElement("p");
-  scoreCard.appendChild(addHighScore);
+  let scoreDisplay = document.createElement("ol");
+  scoreCard.appendChild(scoreDisplay);
+
+  // create entry for info in local storage
+  if (allScores) {
+    function renderScores() {
+      allScores.forEach((element, index, array) => {
+        let scores = array[index];
+        scores = document.createElement("li");
+        scores.textContent = element.userInput + " -- " + element.totalScore;
+        scores.setAttribute(
+          "style",
+          "display: block; font-size: 16px; margin: 10px; padding: 5px; background-color: lightgrey"
+        );
+        scoreDisplay.appendChild(scores);
+      });
+    }
+  }
+  renderScores();
 
   // button to restart quiz
   let restartBtn = document.createElement("button");
@@ -320,29 +338,14 @@ function showHighScores() {
     location.reload();
   });
 
-   // button to clear high scores
-   let clearBtn = document.createElement("button");
-   clearBtn.classList.add("btn");
-   clearBtn.textContent = "Clear Scores";
-   scoreCard.appendChild(clearBtn);
-   // event to clear local storage
-   clearBtn.addEventListener("click", function () {
-     localStorage.clear();
-     addHighScore.remove();
-   });
-
-  // create entry for info in local storage
-  if (JSON.parse(localStorage.getItem("newHighScore"))) {
-    function renderScores() {
-      let allScores = JSON.parse(localStorage.getItem("newHighScore"))
-      addHighScore.textContent = allScores.name + " -- " + allScores.score;
-      addHighScore.setAttribute(
-        "style",
-        "display: block; font-size: 16px; margin: 10px; padding: 5px; background-color: lightgrey"
-      );
-    }
-  } else {
-    return;
-  }
-  renderScores();
+  // button to clear high scores
+  let clearBtn = document.createElement("button");
+  clearBtn.classList.add("btn");
+  clearBtn.textContent = "Clear Scores";
+  scoreCard.appendChild(clearBtn);
+  // event to clear local storage
+  clearBtn.addEventListener("click", function () {
+    localStorage.clear();
+    scoreDisplay.remove();
+  });
 }
