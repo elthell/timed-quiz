@@ -1,12 +1,11 @@
-// general variables
-let totalScore = 0;
-
+// variables
 let main = document.body.children[1];
+let highScoreBtn = document.querySelector("#high-scores");
 let startBtn = document.querySelector("#start-quiz");
-
 let timeLeft = document.querySelector("#time-left");
 let secondsLeft = 45;
-
+let totalScore = 0;
+totalScore.id = "total-score";
 let feedback = document.querySelector("#feedback");
 
 // click start button to start quiz and timer
@@ -16,6 +15,7 @@ startBtn.addEventListener("click", function () {
 });
 
 // timer
+// basic timer
 function setTime() {
   let timerInterval = setInterval(function () {
     secondsLeft--;
@@ -39,11 +39,11 @@ function loseTime() {
   }
 }
 
-//add points for right answers
+// functions affected by answers
+// add points for right answers
 function addPoint() {
   totalScore++;
 }
-
 // add feedback depending on right / wrong answer
 function rightAnswer() {
   feedback.textContent = "Correct! Nice job";
@@ -52,6 +52,7 @@ function wrongAnswer() {
   feedback.textContent = "Oops! Wrong answer";
 }
 
+// questions
 // question 1
 function showQuestion1() {
   // clear prev
@@ -91,7 +92,6 @@ function showQuestion1() {
     });
   }
 }
-
 // question 2
 function showQuestion2() {
   main.innerHTML = "";
@@ -127,7 +127,6 @@ function showQuestion2() {
     });
   }
 }
-
 // question 3
 function showQuestion3() {
   main.innerHTML = "";
@@ -162,7 +161,6 @@ function showQuestion3() {
     });
   }
 }
-
 // question 4
 function showQuestion4() {
   main.innerHTML = "";
@@ -202,7 +200,6 @@ function showQuestion4() {
     });
   }
 }
-
 // question 5
 function showQuestion5() {
   main.innerHTML = "";
@@ -247,7 +244,6 @@ function showSubmit() {
 
   let finalCard = document.createElement("div");
   finalCard.classList.add("card");
-  finalCard.setAttribute("style", "display: flex; flex-direction: column; justify-content: center");
   main.appendChild(finalCard);
 
   let finalText = document.createElement("h2");
@@ -257,35 +253,96 @@ function showSubmit() {
   // display score from questions
   let finalScore = document.createElement("p");
   finalScore.textContent = "Your score is: " + totalScore + "/5";
-  finalScore.setAttribute("style", "margin: 15px 0px")
+  finalScore.setAttribute("style", "margin: 15px 0px");
   finalCard.appendChild(finalScore);
 
   // add name input + label
   let nameLabel = document.createElement("label");
   nameLabel.textContent = "Your name: ";
-  nameLabel.setAttribute("for", "name");
-  nameLabel.setAttribute("style", "font-weight: bold;")
+  nameLabel.setAttribute("for", "name-input");
+  nameLabel.setAttribute("style", "font-weight: bold;");
   finalCard.appendChild(nameLabel);
 
   let nameInput = document.createElement("input");
   nameInput.setAttribute("type", "text");
   nameInput.setAttribute("autocomplete", "off");
-  nameInput.setAttribute("style", "font-size: 16px; padding: 5px;")
-  nameInput.id = "name";
+  nameInput.setAttribute("style", "font-size: 16px; padding: 5px;");
+  nameInput.id = "name-input";
   finalCard.appendChild(nameInput);
 
-  // button to submit name and score
-  let submitFinal = document.createElement("button");
+  // button to submit
+  let submitFinal = document.createElement("div");
   submitFinal.classList.add("btn");
-  submitFinal.setAttribute("style", "display: block");
   submitFinal.textContent = "Submit";
-  submitFinal.id = "submit-quiz";
   finalCard.appendChild(submitFinal);
 
-  // add submit event listener to store name to local storage
-  submitFinal.addEventListener("click", function () {
-    localStorage.setItem("name", nameInput.value);
+  // click to add name + score to local storage
+  submitFinal.addEventListener("click", function (event) {
+    event.preventDefault();
+    let newHighScore = {
+      name: nameInput.value,
+      score: totalScore,
+    };
+    localStorage.setItem("newHighScore", JSON.stringify(newHighScore))
+    showHighScores();
   });
 }
 
 // high scores
+// high scores button on start page
+highScoreBtn.addEventListener("click", function () {
+  showHighScores();
+});
+// high scores page
+function showHighScores() {
+  main.innerHTML = "";
+  feedback.innerHTML = "";
+
+  let scoreCard = document.createElement("div");
+  scoreCard.classList.add("card");
+  main.appendChild(scoreCard);
+
+  let scoreCardTitle = document.createElement("h2");
+  scoreCardTitle.textContent = "High Scores";
+  scoreCard.appendChild(scoreCardTitle);
+
+  let addHighScore = document.createElement("p");
+  scoreCard.appendChild(addHighScore);
+
+  // button to restart quiz
+  let restartBtn = document.createElement("button");
+  restartBtn.classList.add("btn");
+  restartBtn.textContent = "Try Again";
+  scoreCard.appendChild(restartBtn);
+  // event to restart aka refresh
+  restartBtn.addEventListener("click", function (event) {
+    event.preventDefault();
+    location.reload();
+  });
+
+   // button to clear high scores
+   let clearBtn = document.createElement("button");
+   clearBtn.classList.add("btn");
+   clearBtn.textContent = "Clear Scores";
+   scoreCard.appendChild(clearBtn);
+   // event to clear local storage
+   clearBtn.addEventListener("click", function () {
+     localStorage.clear();
+     addHighScore.remove();
+   });
+
+  // create entry for info in local storage
+  if (JSON.parse(localStorage.getItem("newHighScore"))) {
+    function renderScores() {
+      let allScores = JSON.parse(localStorage.getItem("newHighScore"))
+      addHighScore.textContent = allScores.name + " -- " + allScores.score;
+      addHighScore.setAttribute(
+        "style",
+        "display: block; font-size: 16px; margin: 10px; padding: 5px; background-color: lightgrey"
+      );
+    }
+  } else {
+    return;
+  }
+  renderScores();
+}
